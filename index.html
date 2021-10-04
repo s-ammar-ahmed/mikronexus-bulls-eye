@@ -1,0 +1,230 @@
+<html>
+<head>
+<title> SIMPLE BULLS EYE PROGRAM 
+</title>
+<style>
+.box-image {
+}
+.circle-1 {
+  border: 1px solid black;
+  width: 400px !important;
+  height: 400px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 1;
+  background-color: #ba8c63;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+}
+.circle-2 {
+  top: 55px;
+  left: 55px;
+  border: 1px solid black;
+  width: 300px !important;
+  height: 300px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 2;
+  background-color: #ba8c40;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+}
+.circle-3 {
+  top: 105px;
+  left: 105px;
+  border: 1px solid black;
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 3;
+  background-color: #ba8c63;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+}
+.circle-4 {
+  top: 155px;
+  left: 155px;
+  border: 1px solid black;
+  width: 100px !important;
+  height: 100px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 4;
+  background-color: #ba8c40;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+}
+.circle-5 {
+  top: 180px;
+  left: 180px;
+  border: 1px solid black;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 5;
+  background-color: #ba8c63;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+}
+.circle-6 {
+  top: 200px;
+  left: 200px;
+  border: 1px solid black;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 6;
+  background-color: red;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+}
+.circle-7 {
+  top: 50px;
+  left: 110px;
+  border: 1px solid black;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 6;
+  background-color: #8096e0;
+  opacity: 0.5;
+}
+.circle-8 {
+  top: 50px;
+  left: 295px;
+  border: 1px solid black;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 200px;
+  position: absolute;
+  z-index: 6;
+  background-color: #8096e0;
+  opacity: 0.5;
+}
+
+.highlight {
+  background-color: #b1ff63;
+}
+
+#score {
+  position: absolute;
+  left: 50%;
+  top: 200px;
+  color: black;
+  font-weight: bold;
+}
+
+.paddingNBorder {
+  border: 1px solid grey;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#sessButton {
+  position: absolute;
+  left: 50%;
+  top: 250px;
+  color: black;
+  font-weight: bold;
+}
+#countdown {
+  position: absolute;
+  left: 50%;
+  top: 280px;
+  color: black;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+.scoreObject {
+  position: absolute;
+  top: 70%;
+  color: black;
+  font-weight: bold;
+  border: 1px solid grey;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+</style>
+</head>
+<body>
+<div class="box-image"></div>
+<div class="circle-1" id="circle-1" onClick="clickedBox(1,'circle-1')"></div>
+<div class="circle-2" id="circle-2" onClick="clickedBox(2,'circle-2')"></div>
+<div class="circle-3" id="circle-3" onClick="clickedBox(3,'circle-3')"></div>
+<div class="circle-4" id="circle-4" onClick="clickedBox(4,'circle-4')"></div>
+<div class="circle-5" id="circle-5" onClick="clickedBox(5,'circle-5')"></div>
+<div class="circle-6" id="circle-6" onClick="clickedBox(6,'circle-6')"></div>
+<div class="circle-7" id="circle-7" onClick="clickedBox(7,'circle-7')"></div>
+<div class="circle-8" id="circle-8" onClick="clickedBox(8,'circle-8')"></div>
+
+<div id="score"></div>
+<div id="countdown"></div>
+<button id="sessButton" onClick="startSession()">Start Session</button>
+
+<div id="scrObj" class="scoreObject"></div>
+<script>
+var score = new Array();
+var sessionStarted = false;
+function clickedBox(num, clss) {
+  if (sessionStarted) {
+    document.getElementById(clss).className += " highlight";
+    alertFunction(num > 6 ? 8 : num, clss);
+  }
+}
+
+function alertFunction(num, clss) {
+  document.getElementById("score").className += " paddingNBorder";
+  document.getElementById("score").innerHTML = "Score: " + num;
+  score.push(num);
+  setTimeout(function () {
+    document.getElementById(clss).className = clss;
+  }, 500);
+  addToScoreObject();
+}
+
+function startSession() {
+  document.getElementById("sessButton").className = "hidden";
+  sessionTimer();
+}
+
+function sessionTimer() {
+  var timeleft = 120;
+  sessionStarted = true;
+  var sessionTimer = setInterval(function () {
+    if (timeleft <= 0) {
+      clearInterval(sessionTimer);
+      document.getElementById("countdown").innerHTML = "";
+      alert("Finished");
+      endSession();
+    } else {
+      document.getElementById("countdown").innerHTML =
+        timeleft + " seconds remaining";
+    }
+    timeleft -= 1;
+  }, 1000);
+}
+
+function endSession() {
+  document.getElementById("sessButton").className = "";
+  let totalScore = 0;
+  for (let i = 0; i < score.length; i++) {
+    totalScore += score[i];
+  }
+  document.getElementById("score").innerHTML = "Total Score: " + totalScore;
+  sessionStarted = false;
+}
+
+function addToScoreObject() {
+  document.getElementById("scrObj").innerHTML = "";
+  for (let i = 0; i < score.length; i++) {
+    document.getElementById("scrObj").innerHTML +=
+      "Click " + (i + 1) + ": " + score[i] + ", ";
+  }
+}
+
+</script>
+</body>
+</html>
